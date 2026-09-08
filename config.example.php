@@ -15,10 +15,11 @@ header('X-Content-Type-Options: nosniff');
 header('X-Frame-Options: SAMEORIGIN');
 header('Referrer-Policy: same-origin');
 
+// ===== 数据库配置（请根据实际环境修改）=====
 $host = '127.0.0.1';
-$db_user = 'root';
-$db_pwd  = '59420';
-$dbname = 'simple_site';
+$db_user = 'your_db_user';
+$db_pwd  = 'your_db_password';
+$dbname = 'your_db_name';
 
 $conn = @mysqli_connect($host, $db_user, $db_pwd);
 if (!$conn) { error_log('DB connect failed: ' . mysqli_connect_error()); die('系统繁忙，请稍后重试'); }
