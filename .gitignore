@@ -1,0 +1,9 @@
+# 运行时数据 - 不进版本库
+upload/
+
+# 数据库管理工具 - 不应公开
+phpMyAdmin4.8.5/
+
+# 系统文件
+Thumbs.db
+*.log
