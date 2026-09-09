@@ -14,7 +14,7 @@ mysqli_query($conn, "UPDATE forum_post SET view_count = view_count + 1 WHERE id=
 $sql = "SELECT p.*, u.username, u.name, u.avatar as author_avatar, u.signature as author_signature, u.role AS author_role FROM forum_post p 
         LEFT JOIN user u ON p.user_id = u.id 
         WHERE p.id=$id";
-$post_res = mysqli_query($conn, $sql);
+$post_res = db_query($conn, $sql);
 $post = mysqli_fetch_assoc($post_res);
 
 // 帖子不存在则跳转列表

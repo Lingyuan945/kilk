@@ -1,4 +1,4 @@
-﻿<?php
+<?php
 require_once 'config.php';
 if ($is_login) {
     header('Location: index.php');
@@ -30,7 +30,7 @@ if ($_POST) {
         } elseif ($name !== '' && mysqli_num_rows(mysqli_query($conn, "SELECT id FROM user WHERE name='$name'")) > 0) {
             $msg = '该用户名称已被使用，请更换';
         } else {
-            $password_md5 = md5($password);
+            $password_hash = hash_password($password);
             // 自动分配 8 位账号ID（与后台添加用户规则一致，按顺序递增）
             $no_res = mysqli_query($conn, "SELECT LPAD(COALESCE(MAX(CAST(user_no AS UNSIGNED)), 10000000) + 1, 8, '0') AS next_no FROM user");
             $no_row = mysqli_fetch_assoc($no_res);
@@ -60,7 +60,7 @@ if ($ajax_req && $_POST) {
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>用户注册 - 团队官网</title>
+<title>kilk - 注册</title>
 <style>
 * { margin: 0; padding: 0; box-sizing: border-box; }
 body { 

@@ -1,4 +1,4 @@
-﻿<?php
+<?php
 require_once 'header.php';
 
 // 查看哪个用户的主页：默认自己；?id=X 查看指定用户
@@ -8,7 +8,7 @@ if (!$view_id) {
     exit;
 }
 
-$res = mysqli_query($conn, "SELECT * FROM user WHERE id=$view_id");
+$res = db_query($conn, "SELECT * FROM user WHERE id=$view_id");
 $user = mysqli_fetch_assoc($res);
 if (!$user) {
     header('Location: index.php');
@@ -81,20 +81,20 @@ if ($_POST && $is_self && isset($_POST['save_password'])) {
     $old_pwd = isset($_POST['old_password']) ? $_POST['old_password'] : '';
     $new_pwd = isset($_POST['new_password']) ? $_POST['new_password'] : '';
     $confirm_pwd = isset($_POST['confirm_password']) ? $_POST['confirm_password'] : '';
-    if (md5($old_pwd) !== $user['password']) {
+    if (!verify_password($old_pwd, $user['password'])) {
         $wmsg = '原密码不正确';
     } elseif (strlen($new_pwd) < 6) {
         $wmsg = '新密码长度至少6位';
     } elseif ($new_pwd !== $confirm_pwd) {
         $wmsg = '两次输入的新密码不一致';
     } else {
-        mysqli_query($conn, "UPDATE user SET password='" . md5($new_pwd) . "' WHERE id=$view_id");
+        $new_pwd_hash = hash_password($new_pwd); mysqli_query($conn, "UPDATE user SET password='$new_pwd_hash' WHERE id=$view_id");
         $wok = '密码已修改，下次登录请使用新密码';
     }
 }
 
 // 保存后重新读取最新用户数据（部门/工号/头像/签名回显）
-$res = mysqli_query($conn, "SELECT * FROM user WHERE id=$view_id");
+$res = db_query($conn, "SELECT * FROM user WHERE id=$view_id");
 $user = mysqli_fetch_assoc($res);
 
 // 保存后自动打开的编辑标签页
