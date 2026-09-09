@@ -1,0 +1,33 @@
+# 安全响应头
+<IfModule mod_headers.c>
+    Header set X-Content-Type-Options "nosniff"
+    Header set X-Frame-Options "SAMEORIGIN"
+    Header set Referrer-Policy "same-origin"
+</IfModule>
+
+# 允许 ACME 挑战（必须在隐藏文件规则之前）
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+    RewriteRule ^\.well-known/ - [L]
+</IfModule>
+
+# 禁止访问敏感文件
+<FilesMatch "\.(env|git|bak|sql|md|sh|py|ini|log|yaml|yml|json)$">
+    Require all denied
+</FilesMatch>
+
+# 禁止访问隐藏文件（.well-known 除外）
+<FilesMatch "^\.(?!well-known)">
+    Require all denied
+</FilesMatch>
+
+# 禁止直接访问 config.php
+<Files "config.php">
+    Require all denied
+</Files>
+
+# 禁止目录列表
+Options -Indexes
+
+# 默认字符集
+AddDefaultCharset UTF-8

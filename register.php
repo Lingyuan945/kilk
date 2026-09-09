@@ -36,7 +36,7 @@ if ($_POST) {
             $no_row = mysqli_fetch_assoc($no_res);
             $user_no = isset($no_row['next_no']) ? $no_row['next_no'] : '00000001';
             $sql = "INSERT INTO user (user_no, username, password, name, role, create_time) 
-                    VALUES ('$user_no', '$username', '$password_md5', '$name', 'user', NOW())";
+                    VALUES ('$user_no', '$username', '$password_hash', '$name', 'user', NOW())";
             if (mysqli_query($conn, $sql)) {
                 $msg = '注册成功！即将跳转到登录页';
                 $msg_type = 'success';

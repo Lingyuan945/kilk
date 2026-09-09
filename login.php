@@ -1,4 +1,4 @@
-﻿<?php
+<?php
 require 'config.php';
 if ($is_login) {
     header('Location: index.php');
@@ -23,14 +23,20 @@ if ($_POST) {
         $msg = $lock_msg;
     } else {
         $username = mysqli_real_escape_string($conn, $_POST['username']);
-        $password = md5($_POST['password']);
-        $sql = "SELECT * FROM user WHERE username='$username' AND password='$password'";
-        $res = mysqli_query($conn, $sql);
-        if ($row = mysqli_fetch_assoc($res)) {
+        $sql = "SELECT * FROM user WHERE username='$username'";
+        $res = db_query($conn, $sql);
+        $row = mysqli_fetch_assoc($res);
+        if ($row && verify_password($_POST['password'], $row['password'])) {
             // 登录成功：重新生成会话ID，防止会话固定攻击
             session_regenerate_id(true);
             unset($_SESSION['login_fail'], $_SESSION['login_fail_time']);
             $_SESSION['user_id'] = $row['id'];
+            // 旧 md5 哈希自动升级为 bcrypt
+            if (password_needs_upgrade($row['password'])) {
+                $new_hash = hash_password($_POST['password']);
+                $uid = intval($row['id']);
+                mysqli_query($conn, "UPDATE user SET password='$new_hash' WHERE id=$uid");
+            }
             if ($ajax_req) {
                 header('Content-Type: application/json');
                 echo json_encode(['ok' => true, 'redirect' => 'index.php']);
@@ -56,7 +62,7 @@ if ($_POST) {
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Ling的网站</title>
+<title>kilk - 登录</title>
 <style>
 * { margin: 0; padding: 0; box-sizing: border-box; }
 body { 

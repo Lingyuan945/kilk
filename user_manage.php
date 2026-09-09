@@ -28,8 +28,10 @@ if (isset($_POST['add']) && in_array($current_role, ['admin','senior','super']))
     $no_row = mysqli_fetch_assoc($no_res);
     $user_no = isset($no_row['next_no']) ? $no_row['next_no'] : '00000001';
 
-    // 用户名称唯一性检查
-    if ($name !== '' && mysqli_num_rows(mysqli_query($conn, "SELECT id FROM user WHERE name='$name'")) > 0) {
+    // 登录账号唯一性检查
+    if (mysqli_num_rows(mysqli_query($conn, "SELECT id FROM user WHERE username='$username'")) > 0) {
+        $msg = '该登录账号已被使用，请更换';
+    } elseif ($name !== '' && mysqli_num_rows(mysqli_query($conn, "SELECT id FROM user WHERE name='$name'")) > 0) {
         $msg = '该用户名称已被使用，请更换';
     } else {
 
