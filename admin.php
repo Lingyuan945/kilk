@@ -29,7 +29,7 @@ if ($_POST && in_array($login_user['role'], ['admin','super'])) {
 }
 
 // 读取当前首页内容
-$res = mysqli_query($conn, "SELECT * FROM home_content WHERE id=1");
+$res = db_query($conn, "SELECT * FROM home_content WHERE id=1");
 $home = mysqli_fetch_assoc($res);
 ?>
 <style>

@@ -1,4 +1,4 @@
-﻿<?php
+<?php
 require_once 'header.php';
 
 $max_image = 10; // 最多图片数
@@ -10,7 +10,7 @@ if (!$id) {
 }
 
 // 获取帖子信息
-$post_res = mysqli_query($conn, "SELECT * FROM forum_post WHERE id=$id");
+$post_res = db_query($conn, "SELECT * FROM forum_post WHERE id=$id");
 $post = mysqli_fetch_assoc($post_res);
 if (!$post) {
     header('Location: forum.php');

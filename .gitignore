@@ -1,5 +1,6 @@
 # 运行时数据 - 不进版本库
 upload/
+sql_backup/
 
 # 环境配置 - 各环境独立维护
 config.php

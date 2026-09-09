@@ -16,7 +16,7 @@
     .footer { padding: 22px 0; font-size: 12px; }
 }</style>
 <div class="footer">
-    <p>© 2026 Ling 技术支持</p>
+    <p>© 2026 kilk · 由 Ling 开发</p>
 </div>
 </body>
 </html>
