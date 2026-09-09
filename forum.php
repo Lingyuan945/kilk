@@ -6,7 +6,7 @@ $max_image = 10; // 最多上传图片数
 $cur_channel = isset($_GET['channel']) ? intval($_GET['channel']) : 0;
 
 // 频道列表（含版主）
-$chan_res = mysqli_query($conn, "SELECT c.*, u.username AS moderator_name, u.name AS moderator_nick 
+$chan_res = db_query($conn, "SELECT c.*, u.username AS moderator_name, u.name AS moderator_nick 
     FROM channel c LEFT JOIN user u ON c.moderator_id = u.id 
     ORDER BY c.sort ASC, c.id ASC");
 $channels = [];
@@ -92,12 +92,7 @@ if (isset($_GET['del'])) {
     $prw = mysqli_fetch_assoc($pr);
     $p_author_role = $prw ? $prw['role'] : '';
     $p_owner = $prw ? $prw['user_id'] : 0;
-    $can_del_post = false;
-    if ($my_role == 'super') $can_del_post = true;
-    elseif ($my_role == 'admin' || $my_role == 'senior') {
-        $alv = isset($role_level[$p_author_role]) ? $role_level[$p_author_role] : 1;
-        $can_del_post = ($p_owner == $login_user['id']) || ($role_level[$my_role] > $alv);
-    }
+    $can_del_post = can_delete_post($p_author_role, $p_owner);
     if ($can_del_post) {
         $img_res = mysqli_query($conn, "SELECT image_path FROM forum_post_image WHERE post_id=$id");
         while ($img = mysqli_fetch_assoc($img_res)) {
@@ -397,13 +392,7 @@ $res = mysqli_query($conn, $sql);
             <div class="view-count">浏览 <?php echo $post['view_count']; ?></div>
             <div>
                 <a href="post_detail.php?id=<?php echo $post['id']; ?>" class="view-btn">查看</a>
-                <?php
-                $can_del_post = false;
-                if ($my_role == 'super') $can_del_post = true;
-                elseif ($my_role == 'admin' || $my_role == 'senior') {
-                    $alv = isset($role_level[$post['author_role']]) ? $role_level[$post['author_role']] : 1;
-                    $can_del_post = ($post['user_id'] == $login_user['id']) || ($role_level[$my_role] > $alv);
-                }
+                <?php $can_del_post = can_delete_post($post['author_role'], $post['user_id']);
                 if ($can_del_post):
                 ?>
                     <a href="?del=<?php echo $post['id']; ?>&token=<?php echo urlencode(csrf_token()); ?>" class="del-link" onclick="return confirm('确定删除该帖子？')">删除</a>

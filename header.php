@@ -1,17 +1,13 @@
 <?php
 require_once 'config.php';
 ob_start();
-// 基础安全响应头（防点击劫持 / MIME 嗅探 / Referrer 泄露）
-header('X-Content-Type-Options: nosniff');
-header('X-Frame-Options: SAMEORIGIN');
-header('Referrer-Policy: same-origin');
 ?>
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>Ling的官网</title>
+<title>kilk</title>
 <style>
 * { margin: 0; padding: 0; box-sizing: border-box; }
 body { 
@@ -399,7 +395,7 @@ document.addEventListener('DOMContentLoaded', function () {
 <body>
 <div class="navbar">
     <div class="nav-container">
-        <a href="index.php" class="logo">Ling的官网</a>
+        <a href="index.php" class="logo">kilk</a>
         
         <ul class="nav-menu">
     <li><a href="index.php" <?php if(basename($_SERVER['PHP_SELF'])=='index.php') echo 'class="active"'; ?>>首页</a></li>
