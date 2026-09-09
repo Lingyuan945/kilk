@@ -1,0 +1,50 @@
+{
+    // ===== PHP 环境 =====
+    "php.validate.executablePath": "D:\\Ling\\PHP\\Extensions\\php\\php7.3.4nts\\php.exe",
+    "php.executablePath": "D:\\Ling\\PHP\\Extensions\\php\\php7.3.4nts\\php.exe",
+    "php.validate.run": "onType",
+
+    // ===== Intelephense 智能提示 =====
+    "intelephense.environment.phpVersion": "7.3.4",
+    "intelephense.files.maxSize": 2000000,
+    "intelephense.format.enable": true,
+
+    // ===== 编辑器通用 =====
+    "editor.formatOnSave": true,
+    "editor.tabSize": 4,
+    "editor.insertSpaces": true,
+    "editor.detectIndentation": false,
+    "editor.rulers": [120],
+    "files.encoding": "utf8",
+    "files.eol": "\r\n",
+    "files.trimTrailingWhitespace": true,
+    "files.insertFinalNewline": true,
+
+    // ===== PHP 文件专属 =====
+    "[php]": {
+        "editor.defaultFormatter": "bmewburn.vscode-intelephense-client",
+        "editor.tabSize": 4
+    },
+
+    // ===== 文件关联 =====
+    "files.associations": {
+        "*.php": "php",
+        ".htaccess": "apacheconf"
+    },
+
+    // ===== 搜索排除 =====
+    "search.exclude": {
+        "**/node_modules": true,
+        "**/.git": true,
+        "**/sql_backup": true
+    },
+
+    // ===== 终端 =====
+    "terminal.integrated.defaultProfile.windows": "PowerShell",
+    "terminal.integrated.profiles.windows": {
+        "PowerShell": {
+            "source": "PowerShell",
+            "icon": "terminal-powershell"
+        }
+    }
+}

@@ -13,7 +13,7 @@ $current_uid = $login_user['id'];
 if (isset($_POST['add']) && in_array($current_role, ['admin','senior','super'])) {
     csrf_check();
     $username = mysqli_real_escape_string($conn, $_POST['username']);
-    $password = md5($_POST['password']);
+    $password = hash_password($_POST['password']);
     $name = mysqli_real_escape_string($conn, $_POST['name']);
     $department = mysqli_real_escape_string($conn, $_POST['department']);
     $job_number = mysqli_real_escape_string($conn, $_POST['job_number']);
@@ -118,7 +118,7 @@ if (isset($_POST['save_manage'])) {
 
         // 重置密码（可选）
         if (!empty($_POST['password'])) {
-            mysqli_query($conn, "UPDATE user SET password='" . md5($_POST['password']) . "' WHERE id=$id");
+            $pwd_hash = hash_password($_POST['password']); mysqli_query($conn, "UPDATE user SET password='$pwd_hash' WHERE id=$id");
         }
         // 修改头像（可选）
         if (!empty($_FILES['avatar']['name']) && $_FILES['avatar']['error'] == 0) {
@@ -521,7 +521,7 @@ th { background: #fafafa; font-weight: normal; color: #666; }
         $kw_esc = mysqli_real_escape_string($conn, $kw);
         $where = " WHERE username LIKE '%$kw_esc%' OR name LIKE '%$kw_esc%' OR user_no LIKE '%$kw_esc%' OR role LIKE '%$kw_esc%'";
     }
-    $res = mysqli_query($conn, "SELECT * FROM user$where ORDER BY CAST(user_no AS UNSIGNED) ASC");
+    $res = db_query($conn, "SELECT * FROM user$where ORDER BY CAST(user_no AS UNSIGNED) ASC");
     while ($row = mysqli_fetch_assoc($res)) {
         $can_manage = false;
         if ($current_role == 'admin') {
